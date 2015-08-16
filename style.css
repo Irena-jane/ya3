@@ -1,0 +1,88 @@
+html,
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+html, html * {
+	font-family: Calibri, sans-serif;
+
+}
+html * {
+	box-sizing:border-box;
+}
+.canvas{
+	background-color: rgb(61, 51, 43);
+}
+.dropzone{
+	min-height: 100%;
+	background-color: #E4B287;
+	border: 9px solid #F7C79E;
+	padding: 20px;
+	text-align: center;
+	color: #fff;
+}
+
+.player__title{
+	font-size: 25px;
+	font-weight: 300;
+	text-align: center;
+	text-transform: uppercase;
+}
+.player__body{
+	padding: 10px 10px 12px;
+	margin: auto;
+	width: 320px;
+	background-color: #000;
+	border-radius: 8px;
+
+}
+.drop{
+	min-height: 70px;
+	background-color: #515251;
+	padding: 10px;
+	margin-top: 10px;
+}
+.btn-choose,
+.btn-choose__input,
+.btn-choose__link{
+	width: 300px;
+}
+.btn-choose{
+	margin: auto;
+	position: relative;
+}
+.btn-choose__input{
+	height: 30px;
+	position: relative;
+	z-index: 10;
+	opacity:0;
+}
+.btn-choose__link{
+	position: absolute;
+	height: 30px;
+	top: 0;
+	left: 0;
+	z-index: 9;
+	color: #fff;
+	background-color: rgb(85, 93, 94);
+	/*background: linear-gradient(to bottom,#B98C65, #483525);*/
+	border-radius: 5px;
+	text-transform: uppercase;
+	font-size: 14px;
+	padding: 6px 0;
+	cursor: pointer;
+	box-shadow: 0px 3px 0px rgb(61, 61, 61), 0px -3px 0px rgb(101, 101, 101);
+}
+.btn-choose__link,
+.btn-choose__link:hover,
+.btn-choose__link:focus{
+	text-decoration: none;
+}
+.btn-choose__link:hover,
+.btn-choose__link:focus{
+	background: linear-gradient(to bottom,#B98C65, #483525);
+}
+.audio__info{
+	word-break: break-all;
+}

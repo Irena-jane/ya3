@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Audio player</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="dropzone">
+<h1 class="player__title">Выберите файл для проигрывания <br> или откройте окошко с файлами и перетащите нужный в это окно:</h1>
+<div class="player__body">
+	<canvas id="canvas" width="300" height="100" class="canvas"></canvas>
+	<div class="btn-choose">
+		<input id="choose_file" class="btn-choose__input" type="file" accept="audio/*" />
+		<a class="btn-choose__link" href="#">Выбрать файл</a>
+	</div>
+	<div  id="dropzone" class="drop">Сюда можно перетащить мышкой нужный файл</div>
+</div>
+	
+</div>
+	<!-- <p id="audio_name">Александр Клименков - Четырнадцать</p> -->
+
+	<!--  
+  <audio id="player" controls>
+    <source src="audio/music.ogg" type="audio/ogg; codecs=vorbis">
+    <source src="audio/music.mp3" type="audio/mpeg">
+     Тег audio не поддерживается вашим браузером.  -->
+    <!-- <a href="audio/music.mp3">Скачайте музыку</a>. -->
+  <!--  </audio> -->
+<!-- 
+<script src="jdataview.js"></script>
+<script src="jbinary.js"></script> -->
+
+	<script>
+	var choose_file = document.getElementById('choose_file');
+
+	var dropzone = document.getElementById('dropzone');
+	dropzone.addEventListener("dragenter", dragenter, false);
+	dropzone.addEventListener("dragover", dragover, false);
+	dropzone.addEventListener("drop", drop, false);
+
+	var files;
+
+// var dragenter = dragover = function(e){
+// 	e.stopPropagation();
+// 	  e.preventDefault();
+// };
+	function dragenter(e) {
+	  e.stopPropagation();
+	  e.preventDefault();
+	}
+
+	function dragover(e) {
+	  e.stopPropagation();
+	  e.preventDefault();
+	}
+
+	function drop(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  dropzone.innerHTML = '';
+  var dt = e.dataTransfer;
+  files = dt.files;
+
+  onChooseAudioFile();
+}
+	choose_file.onchange = onChooseAudioFile;
+
+	
+	function onChooseAudioFile(e){
+		dropzone.innerHTML = '';
+		// var audio = new Audio();
+		var audio = document.createElement('audio');
+		 files = this.files;
+		 var file = URL.createObjectURL(files[0]);
+		 if(!files[0])return;
+		//  var reader = new FileReader();
+		//  var blob = files[0].slice(128, files[0].size-1);
+		// console.log(reader.readAsBinaryString(blob));
+
+		audio.src = file;
+		var name = files[0].name;
+		var type = files[0].type;
+		audio.controls = true;
+		audio.autoplay = false;
+		audio.load = 'metadata';
+		audio.type = type;
+		var div  = document.createElement('div');
+		div.className = 'audio-wrapper';
+		var name = document.createElement('p');
+		name.className = 'audio__info';
+		name.innerHTML = files[0].name;
+		div.appendChild(name);
+		div.appendChild(audio);
+		dropzone.appendChild(div);
+		
+   
+
+    // var source = document.createElement('source');
+
+    // source.src = file;
+
+    //         player.appendChild(source);
+    // player.play();
+
+  var AudioContext = window.AudioContext  || window.webkitAudioContext;
+var context = new AudioContext();
+var analyser = context.createAnalyser();
+
+var source = context.createMediaElementSource(audio);
+  source.connect(analyser);
+  analyser.connect(context.destination);
+  // source.start(0);
+
+  analyser.fftSize = 2048;
+var bufferLength = analyser.frequencyBinCount;
+var dataArray = new Uint8Array(bufferLength);
+var canvas = document.getElementById('canvas');
+var canvasCtx = canvas.getContext('2d');
+var WIDTH = 300;
+var HEIGHT = 100;
+canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+function draw() {
+	drawVisual = requestAnimationFrame(draw);
+	analyser.getByteTimeDomainData(dataArray);
+	canvasCtx.fillStyle = 'rgb(61, 51, 43)';
+      canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+
+      canvasCtx.lineWidth = 2;
+      canvasCtx.strokeStyle = 'rgb(80, 200, 15)';
+
+      canvasCtx.beginPath();
+
+      var sliceWidth = WIDTH * 1.0 / bufferLength;
+      var x = 0;
+
+      for(var i = 0; i < bufferLength; i++) {
+   
+        var v = dataArray[i] / 128.0;
+        var y = v * HEIGHT/2;
+
+        if(i === 0) {
+          canvasCtx.moveTo(x, y);
+        } else {
+          canvasCtx.lineTo(x, y);
+        }
+
+        x += sliceWidth;
+      }
+
+ canvasCtx.lineTo(canvas.width, canvas.height/2);
+      canvasCtx.stroke();
+    };
+
+    draw();
+};
+			// var context = new AudioContext();
+
+			// function playSound() {
+			//     var source = context.createBufferSource();
+			//     source.buffer = dogBarkingBuffer;
+			//     source.connect(context.destination);
+			//     source.start(0);
+			// }
+
+
+
+
+	</script>
+
+	<script>
+// 			document.querySelector('input[type="file"]').onchange = function(e) {
+//   var reader = new FileReader();
+ 
+//   reader.onload = function(e) {
+//     var dv = new jDataView(this.result);
+ 
+//     // "TAG" starts at byte -128 from EOF.
+//     // See [url]http://en.wikipedia.org/wiki/ID3[/url]
+//     if (dv.getString(3, dv.byteLength - 128) == 'TAG') {
+//       var title = dv.getString(30, dv.tell());
+//       var artist = dv.getString(30, dv.tell());
+//       var album = dv.getString(30, dv.tell());
+//       var year = dv.getString(4, dv.tell());
+//     } else {
+//       // no ID3v1 data found.
+//     }
+//   };
+ 
+//   reader.readAsArrayBuffer(this.files[0]);
+// };
+	</script>
+</body>
+</html>
