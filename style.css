@@ -86,6 +86,4 @@ html * {
 .audio__info{
 	word-break: break-all;
 }
-.audio__info audio{
-	margin:1em -1em;
-}
+
